@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0a0f">
+  <title>Mastery & Momentum</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+  <div id="app">
+    <div id="statusbar"></div>
+    <div id="topbar">
+      <div class="app-title">M<span>&</span>M</div>
+      <div class="topbar-right">
+        <div class="streak-badge" id="streak-badge">🔥 Day 1</div>
+      </div>
+    </div>
+
+    <div id="screens">
+      <div class="screen active" id="screen-home">
+        <div class="hero">
+          <div class="hero-date" id="hero-date"></div>
+          <div class="hero-greeting" id="hero-greeting">Good morning,<br><em>Engineer</em></div>
+          <div class="progress-ring-wrap">
+            <div class="day-stat"><div class="day-stat-val" id="stat-done" style="color:var(--green)">0</div><div class="day-stat-lbl">Blocks done</div></div>
+            <div class="day-stat"><div class="day-stat-val" id="stat-streak" style="color:var(--amber)">1</div><div class="day-stat-lbl">Day streak</div></div>
+            <div class="day-stat"><div class="day-stat-val" id="stat-notes" style="color:var(--accent)">0</div><div class="day-stat-lbl">Notes saved</div></div>
+          </div>
+        </div>
+
+        <div class="phase-banner">
+          <div class="phase-day" id="phase-day">Phase 1 · Day 1</div>
+          <div class="phase-name" id="phase-name">The Foundation</div>
+          <div class="phase-desc" id="phase-desc">System setup. Build the habits, establish the schedule, plant the seeds.</div>
+          <div class="phase-prog-row">
+            <div class="phase-prog-bar"><div class="phase-prog-fill" id="phase-prog" style="width:1%"></div></div>
+            <div class="phase-prog-txt" id="phase-prog-txt">1%</div>
+          </div>
+        </div>
+
+        <div class="redline-banner" id="redline-banner">
+          <div class="redline-icon">⚠️</div>
+          <div class="redline-text">
+            <div class="redline-title">Redline Alert</div>
+            <div id="redline-msg">You've skipped 2+ non-negotiables today. Activate the Half-Day protocol.</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">Today's Schedule</div>
+        </div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+
+      <div class="screen" id="screen-check">
+        <div class="section" style="padding-top:16px">
+          <div class="section-label">Daily Non-Negotiables</div>
+          <div class="card" id="nonneg-list"></div>
+        </div>
+        <div class="section">
+          <div class="section-label">Today's Blocks</div>
+          <div id="blocks-check-list"></div>
+        </div>
+        <div class="section">
+          <div class="section-label">Pillars</div>
+          <div class="pillar-grid" style="padding:0;grid-template-columns:1fr 1fr" id="pillar-grid"></div>
+        </div>
+      </div>
+
+      <div class="screen" id="screen-notes">
+        <div class="note-input-wrap" style="padding-top:16px">
+          <div class="note-input-box">
+            <div class="note-type-row" id="note-type-row">
+              <button class="note-type-btn sel" data-type="general" onclick="selNoteType(this)">General</button>
+              <button class="note-type-btn" data-type="cloud" onclick="selNoteType(this)">☁️ Cloud</button>
+              <button class="note-type-btn" data-type="dsa" onclick="selNoteType(this)">🧠 DSA</button>
+              <button class="note-type-btn" data-type="apt" onclick="selNoteType(this)">⚡ Apt</button>
+              <button class="note-type-btn" data-type="vid" onclick="selNoteType(this)">🎬 Video</button>
+            </div>
+            <textarea id="note-input" rows="3" placeholder="Write your note, insight, or reflection..."></textarea>
+            <button class="btn btn-primary" onclick="saveNote()">+ Save Note</button>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-label">Saved Notes</div>
+          <div id="notes-list"></div>
+          <div id="no-notes" style="text-align:center;padding:32px 0;color:var(--muted);font-size:13px;display:none">
+            No notes yet. Start capturing your insights above.
+          </div>
+        </div>
+      </div>
+
+      <div class="screen" id="screen-progress">
+        <div class="section" style="padding-top:16px">
+          <div class="section-label">90-Day Progress</div>
+          <div class="card">
+            <div class="prog-item">
+              <div class="prog-emoji">☁️</div>
+              <div class="prog-info">
+                <div class="prog-name">Cloud Computing</div>
+                <div class="prog-barwrap"><div class="prog-fill" id="bar-cloud" style="background:var(--cloud);width:0%"></div></div>
+              </div>
+              <div class="prog-count" id="cnt-cloud">0/30</div>
+            </div>
+            <div class="prog-item">
+              <div class="prog-emoji">🧠</div>
+              <div class="prog-info">
+                <div class="prog-name">DSA Problems</div>
+                <div class="prog-barwrap"><div class="prog-fill" id="bar-dsa" style="background:var(--dsa);width:0%"></div></div>
+              </div>
+              <div class="prog-count" id="cnt-dsa">0/300</div>
+            </div>
+            <div class="prog-item">
+              <div class="prog-emoji">⚡</div>
+              <div class="prog-info">
+                <div class="prog-name">Aptitude Streak</div>
+                <div class="prog-barwrap"><div class="prog-fill" id="bar-apt" style="background:var(--apt);width:0%"></div></div>
+              </div>
+              <div class="prog-count" id="cnt-apt">0/90</div>
+            </div>
+            <div class="prog-item" style="margin-bottom:0">
+              <div class="prog-emoji">🎬</div>
+              <div class="prog-info">
+                <div class="prog-name">Videos Published</div>
+                <div class="prog-barwrap"><div class="prog-fill" id="bar-vid" style="background:var(--vid);width:0%"></div></div>
+              </div>
+              <div class="prog-count" id="cnt-vid">0/24</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">Update Progress</div>
+          <div class="card">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" id="progress-inputs"></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">Phase Overview</div>
+          <div id="phase-cards"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">Reminders</div>
+          <div class="card">
+            <div class="toggle-row">
+              <div class="toggle-info"><div class="toggle-label">Morning block alarm</div><div class="toggle-sub">Daily at 7:45 AM</div></div>
+              <button class="toggle on" id="tog-morning" onclick="toggleReminder('morning',this)"></button>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info"><div class="toggle-label">Aptitude reminder</div><div class="toggle-sub">Daily at 7:45 AM</div></div>
+              <button class="toggle on" id="tog-apt" onclick="toggleReminder('apt',this)"></button>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info"><div class="toggle-label">Shutdown ritual</div><div class="toggle-sub">Daily at 8:00 PM</div></div>
+              <button class="toggle on" id="tog-shutdown" onclick="toggleReminder('shutdown',this)"></button>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info"><div class="toggle-label">Digital Detox Sunday</div><div class="toggle-sub">Sunday mornings</div></div>
+              <button class="toggle on" id="tog-detox" onclick="toggleReminder('detox',this)"></button>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info"><div class="toggle-label">Exercise reminder</div><div class="toggle-sub">Daily at 6:00 AM</div></div>
+              <button class="toggle" id="tog-exercise" onclick="toggleReminder('exercise',this)"></button>
+            </div>
+          </div>
+          <button class="btn btn-ghost" style="margin-top:8px" onclick="requestNotifPermission()">🔔 Enable push notifications</button>
+        </div>
+      </div>
+
+    </div>
+
+    <nav id="nav">
+      <button class="nav-btn active" onclick="goScreen('home',this)">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Today
+      </button>
+      <button class="nav-btn" onclick="goScreen('check',this)">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Check
+      </button>
+      <button class="nav-btn" onclick="goScreen('notes',this)">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Notes
+      </button>
+      <button class="nav-btn" onclick="goScreen('progress',this)">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Progress
+      </button>
+    </nav>
+  </div>
+
+  <div id="modal-overlay" onclick="closeModal(event)">
+    <div id="modal">
+      <div class="modal-handle"></div>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <div id="toast">
+    <div class="toast-icon" id="toast-icon">🔔</div>
+    <div class="toast-msg" id="toast-msg"></div>
+  </div>
+   <script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('Service Worker registered'))
+      .catch(err => console.log('SW error', err));
+  });
+}
+</script>
+  <script src="script.js"></script>
+  
+</body>
+</html>
