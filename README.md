@@ -3,60 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mastery & Momentum - README</title>
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 40px 20px;
-}
-
-h1 {
-  font-size: 36px;
-  margin-bottom: 10px;
-}
-
-h2 {
-  margin-top: 40px;
-  color: #7c6ff7;
-}
-
-p {
-  color: #cfcfe6;
-}
-
-.badge {
-  display: inline-block;
-  background: #7c6ff7;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  margin-right: 8px;
-}
-
-.card {
-  background: #13131a;
-  border: 1px solid #2a2a3d;
-  border-radius: 12px;
-  padding: 20px;
-  margin-top: 15px;
-}
-
-.code {
-  background: #1c1c26;
-  padding: 12px;
-  border-radius: 8px;
-  font-family: monospace;
-  font-size: 14px;
-  overflow-x: auto;
-}
-
-.footer {
-  margin-top: 60px;
-  text-align: center;
-  font-size: 14px;
-  color: #6b6b8a;
-}
-</style>
 </head>
 
 <body>
